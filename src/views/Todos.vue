@@ -6,12 +6,13 @@
       />
     </div>
     <div class="container">
-    <TodoList 
-      v-if="todos.length"
-      v-bind:todos="todos"
-      @remove-todo="removeTodo"
-    />
-    <p v-else>No todos!</p>
+      <Loader v-if="loading" />
+      <TodoList 
+        v-else-if="todos.length"
+        v-bind:todos="todos"
+        @remove-todo="removeTodo"
+      />
+      <p v-else>No todos!</p>
     </div>
   </div>
 </template>
@@ -19,22 +20,23 @@
 <script>
 import TodoList from '@/components/TodoList'
 import AddTodo from '@/components/AddTodo'
+import Loader from '@/components/Loader'
 export default {
   name: 'App',
   data() {
     return {
-      todos: [
-        {id: 1, title: 'Read a book', completed: false},
-        {id: 2, title: 'Take out the trash', completed: false},
-        {id: 3, title: 'Do the dishes', completed: false}
-      ]
+      todos: [],
+      loading: true
     }
   },
   mounted() {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
       .then(response => response.json())
       .then(json => {
-        this.todos = json
+        setTimeout(() => {
+          this.todos = json
+          this.loading = false
+        }, 1000)
       })
   },
   methods: {
@@ -46,8 +48,7 @@ export default {
     }
   },
   components: {
-    TodoList,
-    AddTodo
+    TodoList, AddTodo, Loader
   }
 }
 </script>
