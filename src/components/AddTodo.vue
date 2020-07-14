@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="todo-form">    
+    <div class="todo-form">
         <b-form-input v-model="title"></b-form-input>
         <b-button squared variant="dark" type="submit" class="btn">Create</b-button>
     </div>

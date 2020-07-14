@@ -1,53 +1,17 @@
 <template>
   <div id="app">
-    <h1>Todo application</h1>
-    <hr>
-    <AddTodo 
-      @add-todo="addTodo"
-    />
-    <hr>
-    <TodoList 
-      v-bind:todos="todos"
-      @remove-todo="removeTodo"
-    />
+    <div>
+      <b-navbar type="dark" variant="dark">
+        <b-navbar-brand router-link to="/">Todo application</b-navbar-brand>
+        <b-navbar-nav>
+          <b-nav-item router-link to="/">Home</b-nav-item>
+          <b-nav-item router-link to="/todos">Todos</b-nav-item>
+        </b-navbar-nav>
+      </b-navbar>
+    </div>
+    <router-view />
   </div>
 </template>
-
-<script>
-import TodoList from '@/components/TodoList'
-import AddTodo from '@/components/AddTodo'
-export default {
-  name: 'App',
-  data() {
-    return {
-      todos: [
-        {id: 1, title: 'Read a book', completed: false},
-        {id: 2, title: 'Take out the trash', completed: false},
-        {id: 3, title: 'Do the dishes', completed: false}
-      ]
-    }
-  },
-  mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
-      .then(response => response.json())
-      .then(json => {
-        this.todos = json
-      })
-  },
-  methods: {
-    removeTodo(id) {
-      this.todos = this.todos.filter(t => t.id !== id)
-    },
-    addTodo(todo) {
-      this.todos.push(todo)
-    }
-  },
-  components: {
-    TodoList,
-    AddTodo
-  }
-}
-</script>
 
 <style>
 #app {
@@ -56,6 +20,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
