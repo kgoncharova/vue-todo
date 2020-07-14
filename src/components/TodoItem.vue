@@ -3,7 +3,7 @@
     <div class="todo-item">
       <b-form-checkbox @change="todo.completed = !todo.completed">
         <div class="todo-title" v-bind:class="{done: todo.completed}">
-          <strong>{{ index + 1 }}.</strong> {{ todo.title }}
+          <strong>{{ index + 1 }}.</strong> {{ todo.title | uppercase }}
         </div>
       </b-form-checkbox>
       <b-button squared variant="light" @click="$emit('remove-todo', todo.id)">&times;</b-button>
@@ -19,6 +19,11 @@ export default {
       required: true
     },
     index: Number
+  },
+  filters: {
+    uppercase(value) {
+      return value.toUpperCase()
+    }
   }
 }
 </script>

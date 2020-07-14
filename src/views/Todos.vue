@@ -6,10 +6,13 @@
       />
     </div>
     <div class="container">
+      <b-form-select v-model="filter" :options="options"></b-form-select>
+    </div>
+    <div class="container">
       <Loader v-if="loading" />
       <TodoList 
-        v-else-if="todos.length"
-        v-bind:todos="todos"
+        v-else-if="filteredTodos.length"
+        v-bind:todos="filteredTodos"
         @remove-todo="removeTodo"
       />
       <p v-else>No todos!</p>
@@ -26,7 +29,29 @@ export default {
   data() {
     return {
       todos: [],
-      loading: true
+      loading: true,
+      filter: 'all',
+      options: [
+        { value: null, text: 'Please select an option' },
+        { value: 'all', text: 'All todos' },
+        { value: 'completed', text: 'Completed' },
+        { value: 'not-completed', text: 'Not Completed'}
+      ]
+    }
+  },
+  computed: {
+    filteredTodos() {
+      if (this.filter === 'all') {
+        return this.todos
+      }
+
+      if (this.filter === 'completed') {
+        return this.todos.filter(t => t.completed)
+      }
+
+      if (this.filter === 'not-completed') {
+        return this.todos.filter(t => !t.completed)
+      }
     }
   },
   mounted() {
@@ -55,6 +80,7 @@ export default {
 
 <style scoped>
 .container {
+  max-width: 600px;
   margin: 20px auto;
 }
 </style>
